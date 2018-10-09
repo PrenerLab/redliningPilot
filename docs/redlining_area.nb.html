@@ -1711,14 +1711,38 @@ $(document).ready(function () {
 <p>This notebook requires data from the <code>data/</code> directory as well as the <code>sf</code> and <code>dplyr</code> packages.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyB0aWR5dmVyc2UgcGFja2FnZXNcbmxpYnJhcnkoZHBseXIpICAgICAjIGRhdGEgd3JhbmdsaW5nXG4jIHNwYXRpYWwgcGFja2FnZXNcbmxpYnJhcnkoc2YpICAgICAgICAjIHNwYXRpYWwgZGF0YSB0b29sc1xuIyBvdGhlciBwYWNrYWdlc1xubGlicmFyeShoZXJlKSAgICAgICMgZmlsZSBwYXRoIG1hbmFnZW1lbnRcbmBgYCJ9 -->
-<pre class="r"><code># tidyverse packages
-library(dplyr)     # data wrangling
-# spatial packages
-library(sf)        # spatial data tools
-# other packages
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBwcm9qZWN0IHBhY2thZ2VcbmxpYnJhcnkocmVkSGVhbHRoKVxuIyB0aWR5dmVyc2UgcGFja2FnZXNcbmxpYnJhcnkoZHBseXIpICAgICAjIGRhdGEgd3JhbmdsaW5nXG5gYGAifQ== -->
+<pre class="r"><code># project package
+library(redHealth)
+# tidyverse packages
+library(dplyr)     # data wrangling</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYZHBseXLigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnN0YXRz4oCZOlxuXG4gICAgZmlsdGVyLCBsYWdcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuIn0= -->
+<pre><code>
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzcGF0aWFsIHBhY2thZ2VzXG5saWJyYXJ5KHNmKSAgICAgICAgIyBzcGF0aWFsIGRhdGEgdG9vbHNcbmBgYCJ9 -->
+<pre class="r"><code># spatial packages
+library(sf)        # spatial data tools</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGlua2luZyB0byBHRU9TIDMuNi4xLCBHREFMIDIuMS4zLCBwcm9qLjQgNC45LjNcbiJ9 -->
+<pre><code>Linking to GEOS 3.6.1, GDAL 2.1.3, proj.4 4.9.3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBvdGhlciBwYWNrYWdlc1xubGlicmFyeShoZXJlKSAgICAgICMgZmlsZSBwYXRoIG1hbmFnZW1lbnRcbmBgYCJ9 -->
+<pre class="r"><code># other packages
 library(here)      # file path management</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiaGVyZSgpIHN0YXJ0cyBhdCAvVXNlcnMvY2hyaXMvR2l0SHViL0xhYi9yZWRsaW5pbmdQaWxvdFxuIn0= -->
+<pre><code>here() starts at /Users/chris/GitHub/Lab/redliningPilot</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1730,8 +1754,8 @@ library(here)      # file path management</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVkUmF3IDwtIHN0X3JlYWQoaGVyZShcImRhdGFcIiwgXCJyZWRsaW5pbmdcIiwgXCJyYXdcIiwgXCJIT0xDX1N0LnNocFwiKSwgc3RyaW5nc0FzRmFjdG9ycyA9IEZBTFNFKVxuYGBgIn0= -->
 <pre class="r"><code>redRaw &lt;- st_read(here(&quot;data&quot;, &quot;redlining&quot;, &quot;raw&quot;, &quot;HOLC_St.shp&quot;), stringsAsFactors = FALSE)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUmVhZGluZyBsYXllciBgSE9MQ19TdCcgZnJvbSBkYXRhIHNvdXJjZSBgL1VzZXJzL3ByZW5lcmNnL0dpdEh1Yi9MYWIvcmVkbGluaW5nUGlsb3QvZGF0YS9yZWRsaW5pbmcvcmF3L0hPTENfU3Quc2hwJyB1c2luZyBkcml2ZXIgYEVTUkkgU2hhcGVmaWxlJ1xuU2ltcGxlIGZlYXR1cmUgY29sbGVjdGlvbiB3aXRoIDEyNiBmZWF0dXJlcyBhbmQgNCBmaWVsZHNcbmdlb21ldHJ5IHR5cGU6ICBNVUxUSVBPTFlHT05cbmRpbWVuc2lvbjogICAgICBYWVxuYmJveDogICAgICAgICAgIHhtaW46IC05MC4zOTA2MyB5bWluOiAzOC41MjAzOSB4bWF4OiAtOTAuMTg2NzEgeW1heDogMzguNzU3MjRcbmVwc2cgKFNSSUQpOiAgICA0MzI2XG5wcm9qNHN0cmluZzogICAgK3Byb2o9bG9uZ2xhdCArZGF0dW09V0dTODQgK25vX2RlZnNcbiJ9 -->
-<pre><code>Reading layer `HOLC_St' from data source `/Users/prenercg/GitHub/Lab/redliningPilot/data/redlining/raw/HOLC_St.shp' using driver `ESRI Shapefile'
+<!-- rnb-output-begin eyJkYXRhIjoiUmVhZGluZyBsYXllciBgSE9MQ19TdCcgZnJvbSBkYXRhIHNvdXJjZSBgL1VzZXJzL2NocmlzL0dpdEh1Yi9MYWIvcmVkbGluaW5nUGlsb3QvZGF0YS9yZWRsaW5pbmcvcmF3L0hPTENfU3Quc2hwJyB1c2luZyBkcml2ZXIgYEVTUkkgU2hhcGVmaWxlJ1xuU2ltcGxlIGZlYXR1cmUgY29sbGVjdGlvbiB3aXRoIDEyNiBmZWF0dXJlcyBhbmQgNCBmaWVsZHNcbmdlb21ldHJ5IHR5cGU6ICBNVUxUSVBPTFlHT05cbmRpbWVuc2lvbjogICAgICBYWVxuYmJveDogICAgICAgICAgIHhtaW46IC05MC4zOTA2MyB5bWluOiAzOC41MjAzOSB4bWF4OiAtOTAuMTg2NzEgeW1heDogMzguNzU3MjRcbmVwc2cgKFNSSUQpOiAgICA0MzI2XG5wcm9qNHN0cmluZzogICAgK3Byb2o9bG9uZ2xhdCArZGF0dW09V0dTODQgK25vX2RlZnNcbiJ9 -->
+<pre><code>Reading layer `HOLC_St' from data source `/Users/chris/GitHub/Lab/redliningPilot/data/redlining/raw/HOLC_St.shp' using driver `ESRI Shapefile'
 Simple feature collection with 126 features and 4 fields
 geometry type:  MULTIPOLYGON
 dimension:      XY
@@ -1742,8 +1766,8 @@ proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJhY3RzIDwtIHN0X3JlYWQoaGVyZShcImRhdGFcIiwgXCJzcGF0aWFsXCIsIFwicmF3XCIsIFwiU1RMX0RFTU9HUkFQSElDU19UcmFjdHMuc2hwXCIpLCBzdHJpbmdzQXNGYWN0b3JzID0gRkFMU0UpXG5gYGAifQ== -->
 <pre class="r"><code>tracts &lt;- st_read(here(&quot;data&quot;, &quot;spatial&quot;, &quot;raw&quot;, &quot;STL_DEMOGRAPHICS_Tracts.shp&quot;), stringsAsFactors = FALSE)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUmVhZGluZyBsYXllciBgU1RMX0RFTU9HUkFQSElDU19UcmFjdHMnIGZyb20gZGF0YSBzb3VyY2UgYC9Vc2Vycy9wcmVuZXJjZy9HaXRIdWIvTGFiL3JlZGxpbmluZ1BpbG90L2RhdGEvc3BhdGlhbC9yYXcvU1RMX0RFTU9HUkFQSElDU19UcmFjdHMuc2hwJyB1c2luZyBkcml2ZXIgYEVTUkkgU2hhcGVmaWxlJ1xuU2ltcGxlIGZlYXR1cmUgY29sbGVjdGlvbiB3aXRoIDEwNiBmZWF0dXJlcyBhbmQgMyBmaWVsZHNcbmdlb21ldHJ5IHR5cGU6ICBQT0xZR09OXG5kaW1lbnNpb246ICAgICAgWFlcbmJib3g6ICAgICAgICAgICB4bWluOiAtOTAuMzIwNTIgeW1pbjogMzguNTMxODUgeG1heDogLTkwLjE2NjU3IHltYXg6IDM4Ljc3NDQzXG5lcHNnIChTUklEKTogICAgTkFcbnByb2o0c3RyaW5nOiAgICArcHJvaj1sb25nbGF0ICtlbGxwcz1HUlM4MCArbm9fZGVmc1xuIn0= -->
-<pre><code>Reading layer `STL_DEMOGRAPHICS_Tracts' from data source `/Users/prenercg/GitHub/Lab/redliningPilot/data/spatial/raw/STL_DEMOGRAPHICS_Tracts.shp' using driver `ESRI Shapefile'
+<!-- rnb-output-begin eyJkYXRhIjoiUmVhZGluZyBsYXllciBgU1RMX0RFTU9HUkFQSElDU19UcmFjdHMnIGZyb20gZGF0YSBzb3VyY2UgYC9Vc2Vycy9jaHJpcy9HaXRIdWIvTGFiL3JlZGxpbmluZ1BpbG90L2RhdGEvc3BhdGlhbC9yYXcvU1RMX0RFTU9HUkFQSElDU19UcmFjdHMuc2hwJyB1c2luZyBkcml2ZXIgYEVTUkkgU2hhcGVmaWxlJ1xuU2ltcGxlIGZlYXR1cmUgY29sbGVjdGlvbiB3aXRoIDEwNiBmZWF0dXJlcyBhbmQgMyBmaWVsZHNcbmdlb21ldHJ5IHR5cGU6ICBQT0xZR09OXG5kaW1lbnNpb246ICAgICAgWFlcbmJib3g6ICAgICAgICAgICB4bWluOiAtOTAuMzIwNTIgeW1pbjogMzguNTMxODUgeG1heDogLTkwLjE2NjU3IHltYXg6IDM4Ljc3NDQzXG5lcHNnIChTUklEKTogICAgTkFcbnByb2o0c3RyaW5nOiAgICArcHJvaj1sb25nbGF0ICtlbGxwcz1HUlM4MCArbm9fZGVmc1xuIn0= -->
+<pre><code>Reading layer `STL_DEMOGRAPHICS_Tracts' from data source `/Users/chris/GitHub/Lab/redliningPilot/data/spatial/raw/STL_DEMOGRAPHICS_Tracts.shp' using driver `ESRI Shapefile'
 Simple feature collection with 106 features and 3 fields
 geometry type:  POLYGON
 dimension:      XY
@@ -1778,10 +1802,37 @@ proj4string:    +proj=longlat +ellps=GRS80 +no_defs</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>Next, we want to calculate the area of each census tract that is covered by both “C” and “D” graded zones:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY0FyZWFzIDwtIHJoX2FyZWEodHJhY3QgPSB0cmFjdHMsIGhvbGMgPSBjZEFyZWFzLCBjYXQgPSBcIkNcIilcbmBgYCJ9 -->
+<pre class="r"><code>cAreas &lt;- rh_area(tract = tracts, holc = cdAreas, cat = &quot;C&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiYWx0aG91Z2ggY29vcmRpbmF0ZXMgYXJlIGxvbmdpdHVkZS9sYXRpdHVkZSwgc3RfaW50ZXJzZWN0aW9uIGFzc3VtZXMgdGhhdCB0aGV5IGFyZSBwbGFuYXJcbmF0dHJpYnV0ZSB2YXJpYWJsZXMgYXJlIGFzc3VtZWQgdG8gYmUgc3BhdGlhbGx5IGNvbnN0YW50IHRocm91Z2hvdXQgYWxsIGdlb21ldHJpZXNcbiJ9 -->
+<pre><code>although coordinates are longitude/latitude, st_intersection assumes that they are planar
+attribute variables are assumed to be spatially constant throughout all geometries</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZEFyZWFzIDwtIHJoX2FyZWEodHJhY3QgPSB0cmFjdHMsIGhvbGMgPSBjZEFyZWFzLCBjYXQgPSBcIkRcIilcbmBgYCJ9 -->
+<pre class="r"><code>dAreas &lt;- rh_area(tract = tracts, holc = cdAreas, cat = &quot;D&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiYWx0aG91Z2ggY29vcmRpbmF0ZXMgYXJlIGxvbmdpdHVkZS9sYXRpdHVkZSwgc3RfaW50ZXJzZWN0aW9uIGFzc3VtZXMgdGhhdCB0aGV5IGFyZSBwbGFuYXJcbmF0dHJpYnV0ZSB2YXJpYWJsZXMgYXJlIGFzc3VtZWQgdG8gYmUgc3BhdGlhbGx5IGNvbnN0YW50IHRocm91Z2hvdXQgYWxsIGdlb21ldHJpZXNcbiJ9 -->
+<pre><code>although coordinates are longitude/latitude, st_intersection assumes that they are planar
+attribute variables are assumed to be spatially constant throughout all geometries</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVkQXJlYXMgPC0gcmhfYXJlYV9qb2luKHRyYWN0ID0gdHJhY3RzLCBhcmVhID0gY0FyZWFzLCBieSA9IFwiR0VPSURcIiwgY2F0ID0gXCJjR3JhZGVcIilcbnJlZEFyZWFzIDwtIHJoX2FyZWFfam9pbih0cmFjdCA9IHJlZEFyZWFzLCBhcmVhID0gZEFyZWFzLCBieSA9IFwiR0VPSURcIiwgY2F0ID0gXCJkR3JhZGVcIilcbmBgYCJ9 -->
+<pre class="r"><code>redAreas &lt;- rh_area_join(tract = tracts, area = cAreas, by = &quot;GEOID&quot;, cat = &quot;cGrade&quot;)
+redAreas &lt;- rh_area_join(tract = redAreas, area = dAreas, by = &quot;GEOID&quot;, cat = &quot;dGrade&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ2FsY3VsYXRlIFJlZGxpbmluZyBBcmVhIgphdXRob3I6ICJDaHJpc3RvcGhlciBQcmVuZXIsIFBoLkQuIgpkYXRlOiAnKGByIGZvcm1hdChTeXMudGltZSgpLCAiJUIgJWQsICVZIilgKScKb3V0cHV0OiAKICBnaXRodWJfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0IAotLS0KCiMjIEludHJvZHVjdGlvbgpUaGlzIG5vdGVib29rIGNyZWF0ZXMgbWVhc3VyZXMgb2YgdGhlIGltcGFjdCBvZiByZWRsaW5pbmcgYnkgY2Vuc3VzIHRyYWN0LiBUd28gbWVhc3VyZXMgYXJlIGNhbGN1bGF0ZWQgLSB0aGUgc3F1YXJlIG1ldGVycyBvZiBDbGFzcyAnQycgKHllbGxvdywgb3IgZGVjbGluaW5nIGFyZWFzKSBhbmQgdGhlIHNxdWFyZSBtZXRlcnMgb2YgQ2xhc3MgJ0QnIChyZWQsIG9yIG1pbm9yaXR5L2ltbWlncmFudCBhcmVhcykuCgojIyBEZXBlbmRlbmNpZXMKVGhpcyBub3RlYm9vayByZXF1aXJlcyBkYXRhIGZyb20gdGhlIGBkYXRhL2AgZGlyZWN0b3J5IGFzIHdlbGwgYXMgdGhlIGBzZmAgYW5kIGBkcGx5cmAgcGFja2FnZXMuCgpgYGB7ciBsb2FkLXBhY2thZ2VzfQojIHRpZHl2ZXJzZSBwYWNrYWdlcwpsaWJyYXJ5KGRwbHlyKSAgICAgIyBkYXRhIHdyYW5nbGluZwoKIyBzcGF0aWFsIHBhY2thZ2VzCmxpYnJhcnkoc2YpICAgICAgICAjIHNwYXRpYWwgZGF0YSB0b29scwoKIyBvdGhlciBwYWNrYWdlcwpsaWJyYXJ5KGhlcmUpICAgICAgIyBmaWxlIHBhdGggbWFuYWdlbWVudApgYGAKCiMjIExvYWQgRGF0YQpUaGlzIG5vdGVib29rIHJlcXVpcmVzIHRoZSByYXcgcmVkbGluaW5nIGRhdGEgYW5kIHRoZSBjZW5zdXMgdHJhY3QgYm91bmRhcnkgZGF0YS4KCmBgYHtyIGxvYWQtZGF0YX0KcmVkUmF3IDwtIHN0X3JlYWQoaGVyZSgiZGF0YSIsICJyZWRsaW5pbmciLCAicmF3IiwgIkhPTENfU3Quc2hwIiksIHN0cmluZ3NBc0ZhY3RvcnMgPSBGQUxTRSkKdHJhY3RzIDwtIHN0X3JlYWQoaGVyZSgiZGF0YSIsICJzcGF0aWFsIiwgInJhdyIsICJTVExfREVNT0dSQVBISUNTX1RyYWN0cy5zaHAiKSwgc3RyaW5nc0FzRmFjdG9ycyA9IEZBTFNFKQpgYGAKCiMjIFVwZGF0ZSBDUlMgZm9yIFRyYWN0IERhdGEKV2Ugd2FudCBib3RoIGRhdGEgc2V0cyB0byBoYXZlIG1hdGNoaW5nIGBjcnNgIHZhbHVlcyAtIHRoZSB0cmFjdCBkYXRhIGFyZSB0aGVyZWZvcmUgdXBkYXRlcyB0byBFUFNHIGA0MzI2YDoKCmBgYHtyIHVwZGF0ZS1jcnN9CnRyYWN0cyA8LSBzdF90cmFuc2Zvcm0odHJhY3RzLCBjcnMgPSA0MzI2KQpgYGAKClRoZXkgY2FuIG5vdyBiZSB1c2VkIGZvciBnZW9tZXRyaWMgb3BlcmF0aW9ucyB3aXRoIHRoZSBgcmVkUmF3YCBkYXRhLgoKIyMgQ2xlYW4gUmVkbGluaW5nIERhdGEKVGhlIGZpcnN0IHN0ZXAgaXMgdG8gcmVtb3ZlIHVubmVlZGVkIGNvbHVtbnMgYW5kIHVubmVlZGVkIG9ic2VydmF0aW9ucyBmcm9tIHRoZSBgcmVkUmF3YCBzZiBvYmplY3Q6CgpgYGB7ciBzdWJzZXQtY29sdW1uc30KcmVkUmF3ICU+JSAKICBzZWxlY3QoLWNpdHksIC1uYW1lKSAlPiUKICBmaWx0ZXIoaG9sY19ncmFkZSA9PSAiQyIgfCBob2xjX2dyYWRlID09ICJEIikgLT4gY2RBcmVhcwpgYGAKCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ2FsY3VsYXRlIFJlZGxpbmluZyBBcmVhIgphdXRob3I6ICJDaHJpc3RvcGhlciBQcmVuZXIsIFBoLkQuIgpkYXRlOiAnKGByIGZvcm1hdChTeXMudGltZSgpLCAiJUIgJWQsICVZIilgKScKb3V0cHV0OiAKICBnaXRodWJfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0IAotLS0KCiMjIEludHJvZHVjdGlvbgpUaGlzIG5vdGVib29rIGNyZWF0ZXMgbWVhc3VyZXMgb2YgdGhlIGltcGFjdCBvZiByZWRsaW5pbmcgYnkgY2Vuc3VzIHRyYWN0LiBUd28gbWVhc3VyZXMgYXJlIGNhbGN1bGF0ZWQgLSB0aGUgc3F1YXJlIG1ldGVycyBvZiBDbGFzcyAnQycgKHllbGxvdywgb3IgZGVjbGluaW5nIGFyZWFzKSBhbmQgdGhlIHNxdWFyZSBtZXRlcnMgb2YgQ2xhc3MgJ0QnIChyZWQsIG9yIG1pbm9yaXR5L2ltbWlncmFudCBhcmVhcykuCgojIyBEZXBlbmRlbmNpZXMKVGhpcyBub3RlYm9vayByZXF1aXJlcyBkYXRhIGZyb20gdGhlIGBkYXRhL2AgZGlyZWN0b3J5IGFzIHdlbGwgYXMgdGhlIGBzZmAgYW5kIGBkcGx5cmAgcGFja2FnZXMuCgpgYGB7ciBsb2FkLXBhY2thZ2VzfQojIHByb2plY3QgcGFja2FnZQpsaWJyYXJ5KHJlZEhlYWx0aCkKCiMgdGlkeXZlcnNlIHBhY2thZ2VzCmxpYnJhcnkoZHBseXIpICAgICAjIGRhdGEgd3JhbmdsaW5nCgojIHNwYXRpYWwgcGFja2FnZXMKbGlicmFyeShzZikgICAgICAgICMgc3BhdGlhbCBkYXRhIHRvb2xzCgojIG90aGVyIHBhY2thZ2VzCmxpYnJhcnkoaGVyZSkgICAgICAjIGZpbGUgcGF0aCBtYW5hZ2VtZW50CmBgYAoKIyMgTG9hZCBEYXRhClRoaXMgbm90ZWJvb2sgcmVxdWlyZXMgdGhlIHJhdyByZWRsaW5pbmcgZGF0YSBhbmQgdGhlIGNlbnN1cyB0cmFjdCBib3VuZGFyeSBkYXRhLgoKYGBge3IgbG9hZC1kYXRhfQpyZWRSYXcgPC0gc3RfcmVhZChoZXJlKCJkYXRhIiwgInJlZGxpbmluZyIsICJyYXciLCAiSE9MQ19TdC5zaHAiKSwgc3RyaW5nc0FzRmFjdG9ycyA9IEZBTFNFKQp0cmFjdHMgPC0gc3RfcmVhZChoZXJlKCJkYXRhIiwgInNwYXRpYWwiLCAicmF3IiwgIlNUTF9ERU1PR1JBUEhJQ1NfVHJhY3RzLnNocCIpLCBzdHJpbmdzQXNGYWN0b3JzID0gRkFMU0UpCmBgYAoKIyMgVXBkYXRlIENSUyBmb3IgVHJhY3QgRGF0YQpXZSB3YW50IGJvdGggZGF0YSBzZXRzIHRvIGhhdmUgbWF0Y2hpbmcgYGNyc2AgdmFsdWVzIC0gdGhlIHRyYWN0IGRhdGEgYXJlIHRoZXJlZm9yZSB1cGRhdGVzIHRvIEVQU0cgYDQzMjZgOgoKYGBge3IgdXBkYXRlLWNyc30KdHJhY3RzIDwtIHN0X3RyYW5zZm9ybSh0cmFjdHMsIGNycyA9IDQzMjYpCmBgYAoKVGhleSBjYW4gbm93IGJlIHVzZWQgZm9yIGdlb21ldHJpYyBvcGVyYXRpb25zIHdpdGggdGhlIGByZWRSYXdgIGRhdGEuCgojIyBDbGVhbiBSZWRsaW5pbmcgRGF0YQpUaGUgZmlyc3Qgc3RlcCBpcyB0byByZW1vdmUgdW5uZWVkZWQgY29sdW1ucyBhbmQgdW5uZWVkZWQgb2JzZXJ2YXRpb25zIGZyb20gdGhlIGByZWRSYXdgIHNmIG9iamVjdDoKCmBgYHtyIHN1YnNldC1jb2x1bW5zfQpyZWRSYXcgJT4lIAogIHNlbGVjdCgtY2l0eSwgLW5hbWUpICU+JQogIGZpbHRlcihob2xjX2dyYWRlID09ICJDIiB8IGhvbGNfZ3JhZGUgPT0gIkQiKSAtPiBjZEFyZWFzCmBgYAoKTmV4dCwgd2Ugd2FudCB0byBjYWxjdWxhdGUgdGhlIGFyZWEgb2YgZWFjaCBjZW5zdXMgdHJhY3QgdGhhdCBpcyBjb3ZlcmVkIGJ5IGJvdGggIkMiIGFuZCAiRCIgZ3JhZGVkIHpvbmVzOgoKYGBge3IgY2FsY3VsYXRlLWFyZWF9CmNBcmVhcyA8LSByaF9hcmVhKHRyYWN0ID0gdHJhY3RzLCBob2xjID0gY2RBcmVhcywgY2F0ID0gIkMiKQpkQXJlYXMgPC0gcmhfYXJlYSh0cmFjdCA9IHRyYWN0cywgaG9sYyA9IGNkQXJlYXMsIGNhdCA9ICJEIikKYGBgCgpgYGB7cn0KcmVkQXJlYXMgPC0gcmhfYXJlYV9qb2luKHRyYWN0ID0gdHJhY3RzLCBhcmVhID0gY0FyZWFzLCBieSA9ICJHRU9JRCIsIGNhdCA9ICJjR3JhZGUiKQpyZWRBcmVhcyA8LSByaF9hcmVhX2pvaW4odHJhY3QgPSByZWRBcmVhcywgYXJlYSA9IGRBcmVhcywgYnkgPSAiR0VPSUQiLCBjYXQgPSAiZEdyYWRlIikKYGBgCgo=</div>
 
 
 

@@ -14,6 +14,9 @@ This notebook creates measures of the impact of redlining by census tract. Two m
 This notebook requires data from the `data/` directory as well as the `sf` and `dplyr` packages.
 
 ```{r load-packages}
+# project package
+library(redHealth)
+
 # tidyverse packages
 library(dplyr)     # data wrangling
 
@@ -50,6 +53,15 @@ redRaw %>%
   filter(holc_grade == "C" | holc_grade == "D") -> cdAreas
 ```
 
+Next, we want to calculate the area of each census tract that is covered by both "C" and "D" graded zones:
 
+```{r calculate-area}
+cAreas <- rh_area(tract = tracts, holc = cdAreas, cat = "C")
+dAreas <- rh_area(tract = tracts, holc = cdAreas, cat = "D")
+```
 
+```{r}
+redAreas <- rh_area_join(tract = tracts, area = cAreas, by = "GEOID", cat = "cGrade")
+redAreas <- rh_area_join(tract = redAreas, area = dAreas, by = "GEOID", cat = "dGrade")
+```
 
