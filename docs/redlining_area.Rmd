@@ -1,0 +1,55 @@
+---
+title: "Calculate Redlining Area"
+author: "Christopher Prener, Ph.D."
+date: '(`r format(Sys.time(), "%B %d, %Y")`)'
+output: 
+  github_document: default
+  html_notebook: default 
+---
+
+## Introduction
+This notebook creates measures of the impact of redlining by census tract. Two measures are calculated - the square meters of Class 'C' (yellow, or declining areas) and the square meters of Class 'D' (red, or minority/immigrant areas).
+
+## Dependencies
+This notebook requires data from the `data/` directory as well as the `sf` and `dplyr` packages.
+
+```{r load-packages}
+# tidyverse packages
+library(dplyr)     # data wrangling
+
+# spatial packages
+library(sf)        # spatial data tools
+
+# other packages
+library(here)      # file path management
+```
+
+## Load Data
+This notebook requires the raw redlining data and the census tract boundary data.
+
+```{r load-data}
+redRaw <- st_read(here("data", "redlining", "raw", "HOLC_St.shp"), stringsAsFactors = FALSE)
+tracts <- st_read(here("data", "spatial", "raw", "STL_DEMOGRAPHICS_Tracts.shp"), stringsAsFactors = FALSE)
+```
+
+## Update CRS for Tract Data
+We want both data sets to have matching `crs` values - the tract data are therefore updates to EPSG `4326`:
+
+```{r update-crs}
+tracts <- st_transform(tracts, crs = 4326)
+```
+
+They can now be used for geometric operations with the `redRaw` data.
+
+## Clean Redlining Data
+The first step is to remove unneeded columns and unneeded observations from the `redRaw` sf object:
+
+```{r subset-columns}
+redRaw %>% 
+  select(-city, -name) %>%
+  filter(holc_grade == "C" | holc_grade == "D") -> cdAreas
+```
+
+
+
+
