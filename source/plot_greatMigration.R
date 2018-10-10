@@ -30,3 +30,6 @@ plot <- ggplot(data = greatMigration) +
 
 # save plot
 cp_plotSave(filename = here("results", "figures", "greatMigration.png"), plot, preset = "lg", dpi = 500)
+
+# clean workspace
+rm(list = ls())
