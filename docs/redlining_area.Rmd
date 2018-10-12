@@ -33,23 +33,38 @@ This notebook requires the raw redlining data and the census tract boundary data
 ```{r load-data}
 redRaw <- st_read(here("data", "redlining", "raw", "HOLC_St.shp"), stringsAsFactors = FALSE)
 tracts <- st_read(here("data", "spatial", "raw", "STL_DEMOGRAPHICS_Tracts.shp"), stringsAsFactors = FALSE)
+
+load(here("data", "spatial", "baseMap", "baseMap.rda"))
 ```
 
 ## Update CRS for Tract Data
 We want both data sets to have matching `crs` values - the tract data are therefore updates to EPSG `4326`:
 
 ```{r update-crs}
+city <- st_transform(city, crs = 4326)
+city_hwys <- st_transform(city_hwys, crs = 4326)
 tracts <- st_transform(tracts, crs = 4326)
 ```
 
 They can now be used for geometric operations with the `redRaw` data.
 
+## Pre-Process and Map the Redlining Zones
+
+```{r pre-process}
+redClean <- select(redRaw, -city, -name)
+redClean <- st_intersection(redClean, city)
+```
+
+```{r}
+source(here("source", "map_zones.R"))
+```
+
+
 ## Clean Redlining Data
 The first step is to remove unneeded columns and unneeded observations from the `redRaw` sf object:
 
 ```{r subset-columns}
-redRaw %>% 
-  select(-city, -name) %>%
+redClean %>% 
   filter(holc_grade == "C" | holc_grade == "D") -> cdAreas
 ```
 
@@ -60,8 +75,22 @@ cAreas <- rh_area(tract = tracts, holc = cdAreas, cat = "C")
 dAreas <- rh_area(tract = tracts, holc = cdAreas, cat = "D")
 ```
 
+With the areas calculated, we fold them back into a geometric object named `redAreas`, sum them, and get the percent of each tract that was redlined as either "C" or "D" grade.
+
 ```{r}
 redAreas <- rh_area_join(tract = tracts, area = cAreas, by = "GEOID", cat = "cGrade")
 redAreas <- rh_area_join(tract = redAreas, area = dAreas, by = "GEOID", cat = "dGrade")
+
+redAreas %>% 
+  mutate(cdGrade = cGrade+dGrade) %>%
+  mutate(area = st_area(.)) %>%
+  mutate(cdPct = (cdGrade/as.numeric(ALAND))*100) -> redAreas
 ```
+
+Next, we want to create an initial map:
+
+```{r}
+source(here("source", "map_cdPct.R"))
+```
+
 

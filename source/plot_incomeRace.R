@@ -31,12 +31,14 @@ race %>%
 # merge income and tract data
 incomeRace <- left_join(pctBlack, inc, by = "GEOID")
 
+subtitle <- expression(paste("Pearson's ", italic("r"), "= -0.781, ", italic("p"), " < .001"))
+
 ggplot(data = incomeRace, mapping = aes(x = pctBlack, y = medianInc)) +
-  geom_point(shape = 21, fill = "#349E8B", size = 4) +
-  geom_smooth(color = "#E16033", size = 2) +
+  geom_point(position = "jitter", shape = 21, fill = "#349E8B", size = 4) +
+  geom_smooth(method = lm, color = "#E16033", size = 2) +
   labs(
     title = "Income and Race per Census Tract",
-    subtitle = "Overlaid with a LOESS model and confidence interval",
+    subtitle = subtitle,
     x = "Percent African American",
     y = "Median Household Income"
   ) +
@@ -46,5 +48,5 @@ ggplot(data = incomeRace, mapping = aes(x = pctBlack, y = medianInc)) +
 cp_plotSave(filename = here("results", "figures", "incomeRace.png"), preset = "lg", dpi = 500)
 
 # clean workspace
-rm(list = ls())
+# rm(list = ls())
 

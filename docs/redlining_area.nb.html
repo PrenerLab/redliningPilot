@@ -1696,7 +1696,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Calculate Redlining Area</h1>
 <h4 class="author"><em>Christopher Prener, Ph.D.</em></h4>
-<h4 class="date"><em>(October 09, 2018)</em></h4>
+<h4 class="date"><em>(October 11, 2018)</em></h4>
 
 </div>
 
@@ -1711,38 +1711,16 @@ $(document).ready(function () {
 <p>This notebook requires data from the <code>data/</code> directory as well as the <code>sf</code> and <code>dplyr</code> packages.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBwcm9qZWN0IHBhY2thZ2VcbmxpYnJhcnkocmVkSGVhbHRoKVxuIyB0aWR5dmVyc2UgcGFja2FnZXNcbmxpYnJhcnkoZHBseXIpICAgICAjIGRhdGEgd3JhbmdsaW5nXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBwcm9qZWN0IHBhY2thZ2VcbmxpYnJhcnkocmVkSGVhbHRoKVxuIyB0aWR5dmVyc2UgcGFja2FnZXNcbmxpYnJhcnkoZHBseXIpICAgICAjIGRhdGEgd3JhbmdsaW5nXG4jIHNwYXRpYWwgcGFja2FnZXNcbmxpYnJhcnkoc2YpICAgICAgICAjIHNwYXRpYWwgZGF0YSB0b29sc1xuIyBvdGhlciBwYWNrYWdlc1xubGlicmFyeShoZXJlKSAgICAgICMgZmlsZSBwYXRoIG1hbmFnZW1lbnRcbmBgYCJ9 -->
 <pre class="r"><code># project package
 library(redHealth)
 # tidyverse packages
-library(dplyr)     # data wrangling</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYZHBseXLigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnN0YXRz4oCZOlxuXG4gICAgZmlsdGVyLCBsYWdcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuIn0= -->
-<pre><code>
-Attaching package: ‘dplyr’
-
-The following objects are masked from ‘package:stats’:
-
-    filter, lag
-
-The following objects are masked from ‘package:base’:
-
-    intersect, setdiff, setequal, union</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzcGF0aWFsIHBhY2thZ2VzXG5saWJyYXJ5KHNmKSAgICAgICAgIyBzcGF0aWFsIGRhdGEgdG9vbHNcbmBgYCJ9 -->
-<pre class="r"><code># spatial packages
-library(sf)        # spatial data tools</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGlua2luZyB0byBHRU9TIDMuNi4xLCBHREFMIDIuMS4zLCBwcm9qLjQgNC45LjNcbiJ9 -->
-<pre><code>Linking to GEOS 3.6.1, GDAL 2.1.3, proj.4 4.9.3</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBvdGhlciBwYWNrYWdlc1xubGlicmFyeShoZXJlKSAgICAgICMgZmlsZSBwYXRoIG1hbmFnZW1lbnRcbmBgYCJ9 -->
-<pre class="r"><code># other packages
+library(dplyr)     # data wrangling
+# spatial packages
+library(sf)        # spatial data tools
+# other packages
 library(here)      # file path management</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiaGVyZSgpIHN0YXJ0cyBhdCAvVXNlcnMvY2hyaXMvR2l0SHViL0xhYi9yZWRsaW5pbmdQaWxvdFxuIn0= -->
-<pre><code>here() starts at /Users/chris/GitHub/Lab/redliningPilot</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1775,6 +1753,9 @@ bbox:           xmin: -90.32052 ymin: 38.53185 xmax: -90.16657 ymax: 38.77443
 epsg (SRID):    NA
 proj4string:    +proj=longlat +ellps=GRS80 +no_defs</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG9hZChoZXJlKFwiZGF0YVwiLCBcInNwYXRpYWxcIiwgXCJiYXNlTWFwXCIsIFwiYmFzZU1hcC5yZGFcIikpXG5gYGAifQ== -->
+<pre class="r"><code>load(here(&quot;data&quot;, &quot;spatial&quot;, &quot;baseMap&quot;, &quot;baseMap.rda&quot;))</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1783,21 +1764,44 @@ proj4string:    +proj=longlat +ellps=GRS80 +no_defs</code></pre>
 <p>We want both data sets to have matching <code>crs</code> values - the tract data are therefore updates to EPSG <code>4326</code>:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJhY3RzIDwtIHN0X3RyYW5zZm9ybSh0cmFjdHMsIGNycyA9IDQzMjYpXG5gYGAifQ== -->
-<pre class="r"><code>tracts &lt;- st_transform(tracts, crs = 4326)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2l0eSA8LSBzdF90cmFuc2Zvcm0oY2l0eSwgY3JzID0gNDMyNilcbmNpdHlfaHd5cyA8LSBzdF90cmFuc2Zvcm0oY2l0eV9od3lzLCBjcnMgPSA0MzI2KVxudHJhY3RzIDwtIHN0X3RyYW5zZm9ybSh0cmFjdHMsIGNycyA9IDQzMjYpXG5gYGAifQ== -->
+<pre class="r"><code>city &lt;- st_transform(city, crs = 4326)
+city_hwys &lt;- st_transform(city_hwys, crs = 4326)
+tracts &lt;- st_transform(tracts, crs = 4326)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>They can now be used for geometric operations with the <code>redRaw</code> data.</p>
+</div>
+<div id="pre-process-and-map-the-redlining-zones" class="section level2">
+<h2>Pre-Process and Map the Redlining Zones</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVkQ2xlYW4gPC0gc2VsZWN0KHJlZFJhdywgLWNpdHksIC1uYW1lKVxucmVkQ2xlYW4gPC0gc3RfaW50ZXJzZWN0aW9uKHJlZENsZWFuLCBjaXR5KVxuYGBgIn0= -->
+<pre class="r"><code>redClean &lt;- select(redRaw, -city, -name)
+redClean &lt;- st_intersection(redClean, city)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiYWx0aG91Z2ggY29vcmRpbmF0ZXMgYXJlIGxvbmdpdHVkZS9sYXRpdHVkZSwgc3RfaW50ZXJzZWN0aW9uIGFzc3VtZXMgdGhhdCB0aGV5IGFyZSBwbGFuYXJcbmF0dHJpYnV0ZSB2YXJpYWJsZXMgYXJlIGFzc3VtZWQgdG8gYmUgc3BhdGlhbGx5IGNvbnN0YW50IHRocm91Z2hvdXQgYWxsIGdlb21ldHJpZXNcbiJ9 -->
+<pre><code>although coordinates are longitude/latitude, st_intersection assumes that they are planar
+attribute variables are assumed to be spatially constant throughout all geometries</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKGhlcmUoXCJzb3VyY2VcIiwgXCJtYXBfem9uZXMuUlwiKSlcbmBgYCJ9 -->
+<pre class="r"><code>source(here(&quot;source&quot;, &quot;map_zones.R&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 <div id="clean-redlining-data" class="section level2">
 <h2>Clean Redlining Data</h2>
 <p>The first step is to remove unneeded columns and unneeded observations from the <code>redRaw</code> sf object:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVkUmF3ICU+JSBcbiAgc2VsZWN0KC1jaXR5LCAtbmFtZSkgJT4lXG4gIGZpbHRlcihob2xjX2dyYWRlID09IFwiQ1wiIHwgaG9sY19ncmFkZSA9PSBcIkRcIikgLT4gY2RBcmVhc1xuYGBgIn0= -->
-<pre class="r"><code>redRaw %&gt;% 
-  select(-city, -name) %&gt;%
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVkQ2xlYW4gJT4lIFxuICBmaWx0ZXIoaG9sY19ncmFkZSA9PSBcIkNcIiB8IGhvbGNfZ3JhZGUgPT0gXCJEXCIpIC0+IGNkQXJlYXNcbmBgYCJ9 -->
+<pre class="r"><code>redClean %&gt;% 
   filter(holc_grade == &quot;C&quot; | holc_grade == &quot;D&quot;) -&gt; cdAreas</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1821,18 +1825,35 @@ attribute variables are assumed to be spatially constant throughout all geometri
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>With the areas calculated, we fold them back into a geometric object named <code>redAreas</code>, sum them, and get the percent of each tract that was redlined as either “C” or “D” grade.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVkQXJlYXMgPC0gcmhfYXJlYV9qb2luKHRyYWN0ID0gdHJhY3RzLCBhcmVhID0gY0FyZWFzLCBieSA9IFwiR0VPSURcIiwgY2F0ID0gXCJjR3JhZGVcIilcbnJlZEFyZWFzIDwtIHJoX2FyZWFfam9pbih0cmFjdCA9IHJlZEFyZWFzLCBhcmVhID0gZEFyZWFzLCBieSA9IFwiR0VPSURcIiwgY2F0ID0gXCJkR3JhZGVcIilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVkQXJlYXMgPC0gcmhfYXJlYV9qb2luKHRyYWN0ID0gdHJhY3RzLCBhcmVhID0gY0FyZWFzLCBieSA9IFwiR0VPSURcIiwgY2F0ID0gXCJjR3JhZGVcIilcbnJlZEFyZWFzIDwtIHJoX2FyZWFfam9pbih0cmFjdCA9IHJlZEFyZWFzLCBhcmVhID0gZEFyZWFzLCBieSA9IFwiR0VPSURcIiwgY2F0ID0gXCJkR3JhZGVcIilcbnJlZEFyZWFzICU+JSBcbiAgbXV0YXRlKGNkR3JhZGUgPSBjR3JhZGUrZEdyYWRlKSAlPiVcbiAgbXV0YXRlKGFyZWEgPSBzdF9hcmVhKC4pKSAlPiVcbiAgbXV0YXRlKGNkUGN0ID0gYXMubnVtZXJpYygoY2RHcmFkZS9BTEFORCkqMTAwKSkgLT4gcmVkQXJlYXNcbmBgYCJ9 -->
 <pre class="r"><code>redAreas &lt;- rh_area_join(tract = tracts, area = cAreas, by = &quot;GEOID&quot;, cat = &quot;cGrade&quot;)
-redAreas &lt;- rh_area_join(tract = redAreas, area = dAreas, by = &quot;GEOID&quot;, cat = &quot;dGrade&quot;)</code></pre>
+redAreas &lt;- rh_area_join(tract = redAreas, area = dAreas, by = &quot;GEOID&quot;, cat = &quot;dGrade&quot;)
+redAreas %&gt;% 
+  mutate(cdGrade = cGrade+dGrade) %&gt;%
+  mutate(area = st_area(.)) %&gt;%
+  mutate(cdPct = as.numeric((cdGrade/ALAND)*100)) -&gt; redAreas</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gbXV0YXRlX2ltcGwoLmRhdGEsIGRvdHMpIDogXG4gIEV2YWx1YXRpb24gZXJyb3I6IG5vbi1udW1lcmljIGFyZ3VtZW50IHRvIGJpbmFyeSBvcGVyYXRvci5cbiJ9 -->
+<pre><code>Error in mutate_impl(.data, dots) : 
+  Evaluation error: non-numeric argument to binary operator.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Next, we want to create an initial map:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKGhlcmUoXCJzb3VyY2VcIiwgXCJtYXBfY2RQY3QuUlwiKSlcbmBgYCJ9 -->
+<pre class="r"><code>source(here(&quot;source&quot;, &quot;map_cdPct.R&quot;))</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ2FsY3VsYXRlIFJlZGxpbmluZyBBcmVhIgphdXRob3I6ICJDaHJpc3RvcGhlciBQcmVuZXIsIFBoLkQuIgpkYXRlOiAnKGByIGZvcm1hdChTeXMudGltZSgpLCAiJUIgJWQsICVZIilgKScKb3V0cHV0OiAKICBnaXRodWJfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0IAotLS0KCiMjIEludHJvZHVjdGlvbgpUaGlzIG5vdGVib29rIGNyZWF0ZXMgbWVhc3VyZXMgb2YgdGhlIGltcGFjdCBvZiByZWRsaW5pbmcgYnkgY2Vuc3VzIHRyYWN0LiBUd28gbWVhc3VyZXMgYXJlIGNhbGN1bGF0ZWQgLSB0aGUgc3F1YXJlIG1ldGVycyBvZiBDbGFzcyAnQycgKHllbGxvdywgb3IgZGVjbGluaW5nIGFyZWFzKSBhbmQgdGhlIHNxdWFyZSBtZXRlcnMgb2YgQ2xhc3MgJ0QnIChyZWQsIG9yIG1pbm9yaXR5L2ltbWlncmFudCBhcmVhcykuCgojIyBEZXBlbmRlbmNpZXMKVGhpcyBub3RlYm9vayByZXF1aXJlcyBkYXRhIGZyb20gdGhlIGBkYXRhL2AgZGlyZWN0b3J5IGFzIHdlbGwgYXMgdGhlIGBzZmAgYW5kIGBkcGx5cmAgcGFja2FnZXMuCgpgYGB7ciBsb2FkLXBhY2thZ2VzfQojIHByb2plY3QgcGFja2FnZQpsaWJyYXJ5KHJlZEhlYWx0aCkKCiMgdGlkeXZlcnNlIHBhY2thZ2VzCmxpYnJhcnkoZHBseXIpICAgICAjIGRhdGEgd3JhbmdsaW5nCgojIHNwYXRpYWwgcGFja2FnZXMKbGlicmFyeShzZikgICAgICAgICMgc3BhdGlhbCBkYXRhIHRvb2xzCgojIG90aGVyIHBhY2thZ2VzCmxpYnJhcnkoaGVyZSkgICAgICAjIGZpbGUgcGF0aCBtYW5hZ2VtZW50CmBgYAoKIyMgTG9hZCBEYXRhClRoaXMgbm90ZWJvb2sgcmVxdWlyZXMgdGhlIHJhdyByZWRsaW5pbmcgZGF0YSBhbmQgdGhlIGNlbnN1cyB0cmFjdCBib3VuZGFyeSBkYXRhLgoKYGBge3IgbG9hZC1kYXRhfQpyZWRSYXcgPC0gc3RfcmVhZChoZXJlKCJkYXRhIiwgInJlZGxpbmluZyIsICJyYXciLCAiSE9MQ19TdC5zaHAiKSwgc3RyaW5nc0FzRmFjdG9ycyA9IEZBTFNFKQp0cmFjdHMgPC0gc3RfcmVhZChoZXJlKCJkYXRhIiwgInNwYXRpYWwiLCAicmF3IiwgIlNUTF9ERU1PR1JBUEhJQ1NfVHJhY3RzLnNocCIpLCBzdHJpbmdzQXNGYWN0b3JzID0gRkFMU0UpCmBgYAoKIyMgVXBkYXRlIENSUyBmb3IgVHJhY3QgRGF0YQpXZSB3YW50IGJvdGggZGF0YSBzZXRzIHRvIGhhdmUgbWF0Y2hpbmcgYGNyc2AgdmFsdWVzIC0gdGhlIHRyYWN0IGRhdGEgYXJlIHRoZXJlZm9yZSB1cGRhdGVzIHRvIEVQU0cgYDQzMjZgOgoKYGBge3IgdXBkYXRlLWNyc30KdHJhY3RzIDwtIHN0X3RyYW5zZm9ybSh0cmFjdHMsIGNycyA9IDQzMjYpCmBgYAoKVGhleSBjYW4gbm93IGJlIHVzZWQgZm9yIGdlb21ldHJpYyBvcGVyYXRpb25zIHdpdGggdGhlIGByZWRSYXdgIGRhdGEuCgojIyBDbGVhbiBSZWRsaW5pbmcgRGF0YQpUaGUgZmlyc3Qgc3RlcCBpcyB0byByZW1vdmUgdW5uZWVkZWQgY29sdW1ucyBhbmQgdW5uZWVkZWQgb2JzZXJ2YXRpb25zIGZyb20gdGhlIGByZWRSYXdgIHNmIG9iamVjdDoKCmBgYHtyIHN1YnNldC1jb2x1bW5zfQpyZWRSYXcgJT4lIAogIHNlbGVjdCgtY2l0eSwgLW5hbWUpICU+JQogIGZpbHRlcihob2xjX2dyYWRlID09ICJDIiB8IGhvbGNfZ3JhZGUgPT0gIkQiKSAtPiBjZEFyZWFzCmBgYAoKTmV4dCwgd2Ugd2FudCB0byBjYWxjdWxhdGUgdGhlIGFyZWEgb2YgZWFjaCBjZW5zdXMgdHJhY3QgdGhhdCBpcyBjb3ZlcmVkIGJ5IGJvdGggIkMiIGFuZCAiRCIgZ3JhZGVkIHpvbmVzOgoKYGBge3IgY2FsY3VsYXRlLWFyZWF9CmNBcmVhcyA8LSByaF9hcmVhKHRyYWN0ID0gdHJhY3RzLCBob2xjID0gY2RBcmVhcywgY2F0ID0gIkMiKQpkQXJlYXMgPC0gcmhfYXJlYSh0cmFjdCA9IHRyYWN0cywgaG9sYyA9IGNkQXJlYXMsIGNhdCA9ICJEIikKYGBgCgpgYGB7cn0KcmVkQXJlYXMgPC0gcmhfYXJlYV9qb2luKHRyYWN0ID0gdHJhY3RzLCBhcmVhID0gY0FyZWFzLCBieSA9ICJHRU9JRCIsIGNhdCA9ICJjR3JhZGUiKQpyZWRBcmVhcyA8LSByaF9hcmVhX2pvaW4odHJhY3QgPSByZWRBcmVhcywgYXJlYSA9IGRBcmVhcywgYnkgPSAiR0VPSUQiLCBjYXQgPSAiZEdyYWRlIikKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ2FsY3VsYXRlIFJlZGxpbmluZyBBcmVhIgphdXRob3I6ICJDaHJpc3RvcGhlciBQcmVuZXIsIFBoLkQuIgpkYXRlOiAnKGByIGZvcm1hdChTeXMudGltZSgpLCAiJUIgJWQsICVZIilgKScKb3V0cHV0OiAKICBnaXRodWJfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0IAotLS0KCiMjIEludHJvZHVjdGlvbgpUaGlzIG5vdGVib29rIGNyZWF0ZXMgbWVhc3VyZXMgb2YgdGhlIGltcGFjdCBvZiByZWRsaW5pbmcgYnkgY2Vuc3VzIHRyYWN0LiBUd28gbWVhc3VyZXMgYXJlIGNhbGN1bGF0ZWQgLSB0aGUgc3F1YXJlIG1ldGVycyBvZiBDbGFzcyAnQycgKHllbGxvdywgb3IgZGVjbGluaW5nIGFyZWFzKSBhbmQgdGhlIHNxdWFyZSBtZXRlcnMgb2YgQ2xhc3MgJ0QnIChyZWQsIG9yIG1pbm9yaXR5L2ltbWlncmFudCBhcmVhcykuCgojIyBEZXBlbmRlbmNpZXMKVGhpcyBub3RlYm9vayByZXF1aXJlcyBkYXRhIGZyb20gdGhlIGBkYXRhL2AgZGlyZWN0b3J5IGFzIHdlbGwgYXMgdGhlIGBzZmAgYW5kIGBkcGx5cmAgcGFja2FnZXMuCgpgYGB7ciBsb2FkLXBhY2thZ2VzfQojIHByb2plY3QgcGFja2FnZQpsaWJyYXJ5KHJlZEhlYWx0aCkKCiMgdGlkeXZlcnNlIHBhY2thZ2VzCmxpYnJhcnkoZHBseXIpICAgICAjIGRhdGEgd3JhbmdsaW5nCgojIHNwYXRpYWwgcGFja2FnZXMKbGlicmFyeShzZikgICAgICAgICMgc3BhdGlhbCBkYXRhIHRvb2xzCgojIG90aGVyIHBhY2thZ2VzCmxpYnJhcnkoaGVyZSkgICAgICAjIGZpbGUgcGF0aCBtYW5hZ2VtZW50CmBgYAoKIyMgTG9hZCBEYXRhClRoaXMgbm90ZWJvb2sgcmVxdWlyZXMgdGhlIHJhdyByZWRsaW5pbmcgZGF0YSBhbmQgdGhlIGNlbnN1cyB0cmFjdCBib3VuZGFyeSBkYXRhLgoKYGBge3IgbG9hZC1kYXRhfQpyZWRSYXcgPC0gc3RfcmVhZChoZXJlKCJkYXRhIiwgInJlZGxpbmluZyIsICJyYXciLCAiSE9MQ19TdC5zaHAiKSwgc3RyaW5nc0FzRmFjdG9ycyA9IEZBTFNFKQp0cmFjdHMgPC0gc3RfcmVhZChoZXJlKCJkYXRhIiwgInNwYXRpYWwiLCAicmF3IiwgIlNUTF9ERU1PR1JBUEhJQ1NfVHJhY3RzLnNocCIpLCBzdHJpbmdzQXNGYWN0b3JzID0gRkFMU0UpCgpsb2FkKGhlcmUoImRhdGEiLCAic3BhdGlhbCIsICJiYXNlTWFwIiwgImJhc2VNYXAucmRhIikpCmBgYAoKIyMgVXBkYXRlIENSUyBmb3IgVHJhY3QgRGF0YQpXZSB3YW50IGJvdGggZGF0YSBzZXRzIHRvIGhhdmUgbWF0Y2hpbmcgYGNyc2AgdmFsdWVzIC0gdGhlIHRyYWN0IGRhdGEgYXJlIHRoZXJlZm9yZSB1cGRhdGVzIHRvIEVQU0cgYDQzMjZgOgoKYGBge3IgdXBkYXRlLWNyc30KY2l0eSA8LSBzdF90cmFuc2Zvcm0oY2l0eSwgY3JzID0gNDMyNikKY2l0eV9od3lzIDwtIHN0X3RyYW5zZm9ybShjaXR5X2h3eXMsIGNycyA9IDQzMjYpCnRyYWN0cyA8LSBzdF90cmFuc2Zvcm0odHJhY3RzLCBjcnMgPSA0MzI2KQpgYGAKClRoZXkgY2FuIG5vdyBiZSB1c2VkIGZvciBnZW9tZXRyaWMgb3BlcmF0aW9ucyB3aXRoIHRoZSBgcmVkUmF3YCBkYXRhLgoKIyMgUHJlLVByb2Nlc3MgYW5kIE1hcCB0aGUgUmVkbGluaW5nIFpvbmVzCgpgYGB7ciBwcmUtcHJvY2Vzc30KcmVkQ2xlYW4gPC0gc2VsZWN0KHJlZFJhdywgLWNpdHksIC1uYW1lKQpyZWRDbGVhbiA8LSBzdF9pbnRlcnNlY3Rpb24ocmVkQ2xlYW4sIGNpdHkpCmBgYAoKYGBge3J9CnNvdXJjZShoZXJlKCJzb3VyY2UiLCAibWFwX3pvbmVzLlIiKSkKYGBgCgoKIyMgQ2xlYW4gUmVkbGluaW5nIERhdGEKVGhlIGZpcnN0IHN0ZXAgaXMgdG8gcmVtb3ZlIHVubmVlZGVkIGNvbHVtbnMgYW5kIHVubmVlZGVkIG9ic2VydmF0aW9ucyBmcm9tIHRoZSBgcmVkUmF3YCBzZiBvYmplY3Q6CgpgYGB7ciBzdWJzZXQtY29sdW1uc30KcmVkQ2xlYW4gJT4lIAogIGZpbHRlcihob2xjX2dyYWRlID09ICJDIiB8IGhvbGNfZ3JhZGUgPT0gIkQiKSAtPiBjZEFyZWFzCmBgYAoKTmV4dCwgd2Ugd2FudCB0byBjYWxjdWxhdGUgdGhlIGFyZWEgb2YgZWFjaCBjZW5zdXMgdHJhY3QgdGhhdCBpcyBjb3ZlcmVkIGJ5IGJvdGggIkMiIGFuZCAiRCIgZ3JhZGVkIHpvbmVzOgoKYGBge3IgY2FsY3VsYXRlLWFyZWF9CmNBcmVhcyA8LSByaF9hcmVhKHRyYWN0ID0gdHJhY3RzLCBob2xjID0gY2RBcmVhcywgY2F0ID0gIkMiKQpkQXJlYXMgPC0gcmhfYXJlYSh0cmFjdCA9IHRyYWN0cywgaG9sYyA9IGNkQXJlYXMsIGNhdCA9ICJEIikKYGBgCgpXaXRoIHRoZSBhcmVhcyBjYWxjdWxhdGVkLCB3ZSBmb2xkIHRoZW0gYmFjayBpbnRvIGEgZ2VvbWV0cmljIG9iamVjdCBuYW1lZCBgcmVkQXJlYXNgLCBzdW0gdGhlbSwgYW5kIGdldCB0aGUgcGVyY2VudCBvZiBlYWNoIHRyYWN0IHRoYXQgd2FzIHJlZGxpbmVkIGFzIGVpdGhlciAiQyIgb3IgIkQiIGdyYWRlLgoKYGBge3J9CnJlZEFyZWFzIDwtIHJoX2FyZWFfam9pbih0cmFjdCA9IHRyYWN0cywgYXJlYSA9IGNBcmVhcywgYnkgPSAiR0VPSUQiLCBjYXQgPSAiY0dyYWRlIikKcmVkQXJlYXMgPC0gcmhfYXJlYV9qb2luKHRyYWN0ID0gcmVkQXJlYXMsIGFyZWEgPSBkQXJlYXMsIGJ5ID0gIkdFT0lEIiwgY2F0ID0gImRHcmFkZSIpCgpyZWRBcmVhcyAlPiUgCiAgbXV0YXRlKGNkR3JhZGUgPSBjR3JhZGUrZEdyYWRlKSAlPiUKICBtdXRhdGUoYXJlYSA9IHN0X2FyZWEoLikpICU+JQogIG11dGF0ZShjZFBjdCA9IChjZEdyYWRlL2FzLm51bWVyaWMoQUxBTkQpKSoxMDApIC0+IHJlZEFyZWFzCmBgYAoKTmV4dCwgd2Ugd2FudCB0byBjcmVhdGUgYW4gaW5pdGlhbCBtYXA6CgpgYGB7cn0Kc291cmNlKGhlcmUoInNvdXJjZSIsICJtYXBfY2RQY3QuUiIpKQpgYGAKCgo=</div>
 
 
 
