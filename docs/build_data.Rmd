@@ -8,32 +8,145 @@ output:
 ---
 
 ## Introduction
-This notebook...
+This notebook builds the analytical data set from the results of `redlining_area.Rmd`, CDC data, and demographic data.
 
 ## Dependencies
-This notebook requires...
+This notebook requires a number of packages:
 
 ```{r load-packages}
 # tidyverse packages
-
+library(dplyr)         # data wrangling
 
 # other packages
-
+library(cityHealth)    # CDC data
+library(here)          # file path management
+library(tidycensus)    # demographic data
 ```
 
 ## Load Data
-This notebook requires...
+This notebook requires the redlining data already calculated for St. Louis:
 
 ```{r load-data}
-
+redlining <- read_csv(here("data", "redlining", "STL_REDLINING_cdGrade.csv"))
 ```
 
-## Part 1
-### Question 1
-A description of what your code should accomplish.
+## Demographic Data
 
-```{r p1-q1}
+The first goal of this notebook is to download and prepare for joining all of the needed demographic data.
 
+### Race
+*individuals*
+```{r}
+race <- get_acs(geography = "tract", table = "B02001", state = 29, county = 510, 
+                     year = 2016, output = "wide")
+
+race %>%
+  rename(totalPop = B02001_001E) %>%
+  rename(totalPop_m = B02001_001M) %>%
+  rename(white = B02001_002E) %>%
+  rename(white_m = B02001_002M) %>%
+  rename(black = B02001_003E) %>%
+  rename(black_m = B02001_003M) %>%
+  mutate(otherRace = totalPop-white-black) %>%
+  select(GEOID, totalPop, totalPop_m, white, white_m, black, black_m, otherRace) -> race
 ```
 
-A description of the results.
+### Median Income
+*household*
+```{r}
+medianInc <- get_acs(geography = "tract", variables = "B19019_001", state = 29, county = 510, 
+                     year = 2016, output = "wide")
+
+medianInc %>%
+  select(-NAME) %>%
+  rename(medianInc = B19019_001E) %>%
+  rename(medianInc_m = B19019_001M) -> medianInc
+```
+
+### Poverty Status
+*individuals*
+```{r}
+poverty <- get_acs(geography = "tract", variables = "B17001_002", state = 29, county = 510, 
+                     year = 2016, output = "wide")
+
+poverty %>%
+  select(-NAME) %>%
+  rename(poverty = B17001_002E) %>%
+  rename(poverty_m = B17001_002M) -> poverty
+```
+
+*individuals*
+```{r}
+povertyB <- get_acs(geography = "tract", variables = "B17001B_002", state = 29, county = 510, 
+                     year = 2016, output = "wide")
+
+povertyB %>%
+  select(-NAME) %>%
+  rename(povertyB = B17001B_002E) %>%
+  rename(povertyB_m = B17001B_002M) -> povertyB
+```
+
+*individuals*
+
+
+```{r}
+medicaid <- get_acs(geography = "tract", table = "C27007", state = 29, county = 510, 
+                     year = 2016, output = "wide")
+
+medicaid %>%
+  mutate(medicaid = C27007_004E + C27007_007E + C27007_010E + C27007_014E + C27007_017E + C27007_020E) %>%
+  select(GEOID, medicaid) -> medicaid
+```
+
+
+*households*
+
+
+```{r}
+tanf <- get_acs(geography = "tract", table = "B19057", state = 29, county = 510, 
+                     year = 2016, output = "wide")
+
+tanf %>%
+  rename(house = B19057_001E) %>%
+  rename(house_m = B19057_001M) %>%
+  rename(tanf = B19057_002E) %>%
+  rename(tanf_m = B19057_002M) %>%
+  mutate(tanfProp = tanf/house) %>%
+  select(GEOID, house, house_m, tanf, tanf_m, tanfProp) -> tanf
+```
+
+*households* 
+```{r}
+snap <- get_acs(geography = "tract", table = "B19058", state = 29, county = 510, 
+                     year = 2016, output = "wide")
+
+snap %>%
+  rename(snap = B19058_002E) %>%
+  rename(snap_m = B19058_002M) %>%
+  mutate(snapProp = snap/B19058_001E) %>%
+  select(GEOID, snap, snap_m, snapProp) -> snap
+```
+
+*households*
+ 
+```{r}
+tenure <- get_acs(geography = "tract", table = "B25003", state = 29, county = 510, 
+                     year = 2016, output = "wide")
+
+tenure %>%
+  rename(own = B25003_002E) %>%
+  rename(own_m = B25003_002M) %>%
+  mutate(ownProp = own/B25003_001E) %>%
+  rename(rent = B25003_003E) %>%
+  rename(rent_m = B25003_003M) %>%
+  mutate(rentProp = rent/B25003_001E) %>%
+  select(GEOID, own, own_m, ownProp, rent, rent_m, rentProp) -> tenure
+```
+
+## CDC Data
+
+uninsurance rate
+
+
+
+
