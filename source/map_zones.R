@@ -4,10 +4,10 @@
 # map redlined areas
 ggplot() +
   geom_sf(data = city, fill = "#f8f8f8", color = NA) +
-  geom_sf(data = redClean, mapping = aes(fill = holc_grade), color = NA) +
+  geom_sf(data = redClean, mapping = aes(fill = holc_grade), color = "#000000", size = .1) +
   geom_sf(data = city_hwys, color = "#000000", size = 1.5) +
   geom_sf(data = city, fill = NA , color = "#000000", size = .25) +
-  scale_fill_manual(name = "Zones", values = c("#00b300", "#0000b3", "#b3b300", "#b30000")) +
+  scale_fill_manual(name = "Zones", values = c("#7BA977", "#7DA8BF", "#CFD173", "#DCA1AC")) +
   labs(
     title = "Redlined Areas of St. Louis",
     subtitle = "All Zones"
