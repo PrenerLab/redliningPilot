@@ -264,7 +264,7 @@ analysis <- select(analysis, GEOID, ALAND, cGrade, dGrade, cdGrade,
                    obesity, obesity_ml, obesity_mh, obesityProp,
                    dental, dental_ml, dental_mh, dentalProp)
 
-write_csv(analysis, path = here("data", "analysis", "analysis_full.csv"))
+write_csv(analysis, path = here("data", "merged", "merged_full.csv"))
 ```
 
 
@@ -274,7 +274,7 @@ analysisSlim <- select(analysis, GEOID, cdGrade, whiteProp, blackProp, otherRace
                        povertyProp, povertyBProp, medicaidProp, tanfProp, snapProp, rentProp, 
                        uninsProp, asthmaProp, obesityProp, dentalProp)
 
-write_csv(analysisSlim, path = here("data", "analysis", "analysis_slim.csv"))
+write_csv(analysisSlim, path = here("data", "merged", "merged_slim.csv"))
 ```
 
 
