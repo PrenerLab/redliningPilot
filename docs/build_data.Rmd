@@ -16,6 +16,7 @@ This notebook requires a number of packages:
 ```{r load-packages}
 # tidyverse packages
 library(dplyr)         # data wrangling
+library(readr)
 
 # other packages
 library(cityHealth)    # CDC data
@@ -28,6 +29,7 @@ This notebook requires the redlining data already calculated for St. Louis:
 
 ```{r load-data}
 redlining <- read_csv(here("data", "redlining", "STL_REDLINING_cdGrade.csv"))
+redlining <- mutate(redlining, GEOID = as.character(GEOID))
 ```
 
 ## Demographic Data
@@ -143,9 +145,86 @@ tenure %>%
   select(GEOID, own, own_m, ownProp, rent, rent_m, rentProp) -> tenure
 ```
 
+
+```{r}
+write_csv(medianInc, here("data", "medianInc.csv"))
+write_csv(medicaid, here("data", "medicaid.csv"))
+write_csv(poverty, here("data", "poverty.csv"))
+write_csv(povertyB, here("data", "povertyB.csv"))
+write_csv(race, here("data", "race.csv"))
+write_csv(snap, here("data", "snap.csv"))
+write_csv(tanf, here("data", "tanf.csv"))
+```
+
+
 ## CDC Data
 
-uninsurance rate
+```{r}
+# subset data for City of St. Louis and trim number of columns
+ch_tbl_tract17 %>%
+  filter(city_fips == 2965000) %>%
+  select(tract_fips, category, question, estimate, estimate_ci_low, estimate_ci_high) %>%
+  rename(GEOID = tract_fips) -> cdc_stl
+```
+
+```{r}
+cdc_stl %>%
+  filter(question == "Current Asthma") %>%
+  select(GEOID, estimate, estimate_ci_low, estimate_ci_high) %>% 
+  rename(asthma = estimate) %>%
+  rename(asthma_ml = estimate_ci_low) %>%
+  rename(asthma_mh = estimate_ci_high) -> asthma
+```
+
+```{r}
+cdc_stl %>%
+  filter(question == "Obesity") %>%
+  select(GEOID, estimate, estimate_ci_low, estimate_ci_high) %>% 
+  rename(obesity = estimate) %>%
+  rename(obesity_ml = estimate_ci_low) %>%
+  rename(obesity_mh = estimate_ci_high) -> obesity
+```
+
+```{r}
+cdc_stl %>%
+  filter(question == "Dental Visit") %>%
+  select(GEOID, estimate, estimate_ci_low, estimate_ci_high) %>% 
+  rename(dental = estimate) %>%
+  rename(dental_ml = estimate_ci_low) %>%
+  rename(dental_mh = estimate_ci_high) -> dental
+```
+
+```{r}
+cdc_stl %>%
+  filter(question == "Health Insurance") %>%
+  select(GEOID, estimate, estimate_ci_low, estimate_ci_high) %>% 
+  rename(unins = estimate) %>%
+  rename(unins_ml = estimate_ci_low) %>%
+  rename(unins_mh = estimate_ci_high) -> unins
+```
+
+
+## Combine Data
+
+```{r}
+analysis <- left_join(redlining, race, by = "GEOID")
+
+analysis %>%
+  left_join(y = medianInc, by = "GEOID") %>%
+  left_join(y = poverty, by = "GEOID") %>%
+  left_join(y = povertyB, by = "GEOID") %>%
+  left_join(y = medicaid, by = "GEOID") %>%
+  left_join(y = tanf, by = "GEOID") %>%
+  left_join(y = snap, by = "GEOID") %>%
+  left_join(y = tenure, by = "GEOID") %>%
+  left_join(y = unins, by = "GEOID") %>%
+  left_join(y = asthma, by = "GEOID") %>%
+  left_join(y = obesity, by = "GEOID") %>%
+  left_join(y = dental, by = "GEOID") %>%
+  left_join(y = unins, by = "GEOID") -> analysis
+
+write_csv(analysis, path = here("data", "analysis", "analysis_full.csv"))
+```
 
 
 
