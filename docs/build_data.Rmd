@@ -21,7 +21,9 @@ library(readr)
 # other packages
 library(cityHealth)    # CDC data
 library(here)          # file path management
+library(sf)            # spatial tools
 library(tidycensus)    # demographic data
+library(tidyseg)       # tidy segregation tools
 ```
 
 ## Load Data
@@ -220,12 +222,87 @@ analysis %>%
   left_join(y = unins, by = "GEOID") %>%
   left_join(y = asthma, by = "GEOID") %>%
   left_join(y = obesity, by = "GEOID") %>%
-  left_join(y = dental, by = "GEOID") %>%
-  left_join(y = unins, by = "GEOID") -> analysis
+  left_join(y = dental, by = "GEOID") -> analysis
+
+analysis %>%
+  mutate(whiteProp = white/totalPop) %>%
+  mutate(blackProp = black/totalPop) %>%
+  mutate(otherRaceProp = otherRace/totalPop) %>%
+  mutate(povertyProp = poverty/totalPop) %>%
+  mutate(povertyBProp = povertyB/totalPop) %>%
+  mutate(medicaidProp = medicaid/totalPop) %>%
+  mutate(uninsProp = unins/100) %>%
+  mutate(asthmaProp = asthma/100) %>%
+  mutate(obesityProp = obesity/100) %>%
+  mutate(dentalProp = dental/100) -> analysis
+
+
+
+```
+
+```{r}
+analysis <- ts_dissim(analysis, popA = white, popB = black, dissim = dissim, return = "tibble")
+
+```
+
+
+
+```{r}
+analysis <- select(analysis, GEOID, ALAND, cGrade, dGrade, cdGrade, 
+                   totalPop, totalPop_m, house, house_m,
+                   white, white_m, whiteProp, black, black_m, blackProp, otherRace, otherRaceProp,
+                   dissim,
+                   medianInc, medianInc_m,
+                   poverty, poverty_m, povertyProp, 
+                   povertyB, povertyB_m, povertyBProp, 
+                   medicaid, medicaidProp, 
+                   tanf, tanf_m, tanfProp, 
+                   snap, snap_m, snapProp, 
+                   own, own_m, ownProp, rent, rent_m, rentProp, 
+                   unins, unins_ml, unins_mh, uninsProp, 
+                   asthma, asthma_ml, asthma_mh, asthmaProp, 
+                   obesity, obesity_ml, obesity_mh, obesityProp,
+                   dental, dental_ml, dental_mh, dentalProp)
 
 write_csv(analysis, path = here("data", "analysis", "analysis_full.csv"))
 ```
 
 
 
+```{r}
+analysisSlim <- select(analysis, GEOID, cdGrade, whiteProp, blackProp, otherRaceProp, dissim, medianInc, 
+                       povertyProp, povertyBProp, medicaidProp, tanfProp, snapProp, rentProp, 
+                       uninsProp, asthmaProp, obesityProp, dentalProp)
+
+write_csv(analysisSlim, path = here("data", "analysis", "analysis_slim.csv"))
+```
+
+
+```{r}
+tracts <- st_read(here("data", "spatial", "raw", "STL_DEMOGRAPHICS_Tracts.shp"), stringsAsFactors = FALSE)
+```
+
+```{r}
+analysisSlim %>%
+  rename(CDGRADE = cdGrade) %>%
+  rename(WHITE = whiteProp) %>%
+  rename(BLACK = blackProp) %>%
+  rename(OTHERRACE = otherRaceProp) %>%
+  rename(DISSIM = dissim) %>%
+  rename(MEDINC = medianInc) %>%
+  rename(POVERTY = povertyProp) %>%
+  rename(POVERTYB = povertyBProp) %>%
+  rename(MEDICAID = medicaidProp) %>%
+  rename(TANF = tanfProp) %>%
+  rename(SNAP = snapProp) %>%
+  rename(RENT = rentProp) %>%
+  rename(UNINS = uninsProp) %>%
+  rename(ASTHMA = asthmaProp) %>%
+  rename(OBESITY = obesityProp) %>%
+  rename(DENTAL = dentalProp) -> analysis_preSpatial
+
+tractsComplete <- left_join(tracts, analysis_preSpatial, by = "GEOID")
+
+st_write(tractsComplete, here("data", "spatial", "clean", "STL_REDLINING_Analysis.shp"))
+```
 
