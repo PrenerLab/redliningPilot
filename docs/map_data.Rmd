@@ -169,3 +169,22 @@ ggplot() +
 # save plot
 cp_plotSave(filename = here("results", "maps", "asthma.png"), preset = "lg", dpi = 500)
 ```
+
+
+```{r}
+subtitle <- expression(paste("Pearson's ", italic("r"), " = 0.900, ", italic("p"), " < 0.001"))
+
+ggplot(data = tracts, mapping = aes(x = ASTHMA, y = BLACK)) + 
+  geom_point(position = "jitter", shape = 21, fill = "#349E8B", size = 4) + 
+  geom_smooth(method = lm, color = "#E16033", size = 2) +
+  labs(
+    title = "Race and Asthma per Census Tract",
+    subtitle = subtitle,
+    x = "Proportion of Individuals with Current Asthma",
+    y = "Proportion African Americans"
+  ) +
+  cp_sequoiaTheme(background = "gray")
+
+# save plot
+cp_plotSave(filename = here("results", "figures", "raceAsthma.png"), preset = "lg", dpi = 500)
+```
