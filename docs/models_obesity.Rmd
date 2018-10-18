@@ -1,0 +1,81 @@
+---
+title: "Python Analyses - Obesity"
+author: "Christopher Prener, Ph.D."
+date: '(`r format(Sys.time(), "%B %d, %Y")`)'
+output: 
+  github_document: default
+  html_notebook: default 
+---
+
+## Introduction
+This notebook...
+
+## Dependencies
+
+```{r load-packages}
+# tidyverse packages
+library(ggplot2)
+library(dplyr)
+
+# other packages
+library(reticulate) # python interface
+```
+
+```{python}
+import os
+import pysal as ps
+import numpy as np
+```
+
+## Calculate Spatial Weights
+
+```{python}
+w = ps.queen_from_shapefile("../data/spatial/clean/STL_REDLINING_Analysis2.shp", idVariable="GEOID", sparse=False)
+w.transform = 'r'
+```
+
+## Set up Variables
+
+```{python}
+db = ps.open("../data/spatial/clean/STL_REDLINING_Analysis2.dbf", 'r')
+y_name = "OBESITY"
+y = np.array([db.by_col(y_name)]).T
+x1_names = ['CDPROP','DISSIM', 'POVERTY', 'MEDICAID', 'TANF', 'SNAP', 'RENT', 'UNINS']
+x1 = np.array([db.by_col(var) for var in x1_names]).T
+x2_names = ['CDPROP','BLACK', 'POVERTY', 'MEDICAID', 'TANF', 'SNAP', 'RENT', 'UNINS']
+x2 = np.array([db.by_col(var) for var in x2_names]).T
+```
+
+
+```{python}
+print(y.shape)
+print(x1.shape)
+print(x2.shape)
+```
+
+
+## Fit OLS Models
+
+```{python}
+ols1 = ps.spreg.OLS(y, x1, w=w, name_y=y_name, name_x=x1_names, spat_diag=True, moran=True, 
+    name_w='queens', name_ds='STL_REDLINING_Analysis2.shp')
+
+print(ols1.summary)
+```
+
+Spatial lag model indicated 
+
+```{python}
+ols2 = ps.spreg.OLS(y, x2, w=w, name_y=y_name, name_x=x2_names, spat_diag=True, moran=True, 
+    name_w='queens', name_ds='STL_REDLINING_Analysis2.shp')
+
+print(ols2.summary)
+```
+
+
+```{python}
+error1 = ps.spreg.GM_Lag(y, x1, w=w, name_y=y_name, name_x=x1_names, spat_diag=True, robust='white', 
+    name_w='queens', name_ds='STL_REDLINING_Analysis2.shp')
+
+print(error1.summary)
+```
