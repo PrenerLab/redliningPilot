@@ -5,9 +5,12 @@ Christopher Prener, Ph.D.
 
 ## Introduction
 
-This notebook…
+This notebook fits the models for the asthma outcome - these were used
+for the Northeastern presentation.
 
 ## Dependencies
+
+`R` dependencies:
 
 ``` r
 # tidyverse packages
@@ -31,6 +34,8 @@ library(dplyr)
 library(reticulate) # python interface
 ```
 
+Python dependencies:
+
 ``` python
 import os
 import pysal as ps
@@ -45,12 +50,20 @@ import numpy as np
 
 ## Calculate Spatial Weights
 
+We’ll use queens weights here to capture all contiguous neighbors, and
+row standardize them for
+analyses:
+
 ``` python
 w = ps.queen_from_shapefile("../data/spatial/clean/STL_REDLINING_Analysis2.shp", idVariable="GEOID", sparse=False)
 w.transform = 'r'
 ```
 
 ## Set up Variables
+
+The `x` model is the main effect; `xa` and `xb` are stepwise models.
+`x1` is the full OLS model / error model and `x2` is a check for whether
+proportion African American
 
 ``` python
 db = ps.open("../data/spatial/clean/STL_REDLINING_Analysis2.dbf", 'r')
@@ -67,6 +80,10 @@ x1 = np.array([db.by_col(var) for var in x1_names]).T
 x2_names = ['CDPROP','BLACK', 'POVERTY', 'MEDICAID', 'TANF', 'SNAP', 'RENT', 'UNINS']
 x2 = np.array([db.by_col(var) for var in x2_names]).T
 ```
+
+We check a couple of the arrays quickly to make sure they have the
+correct
+shape:
 
 ``` python
 print(y.shape)
@@ -324,7 +341,9 @@ print(ols1.summary)
     ## ================================ END OF REPORT =====================================
 
 Spatial error model indicated - mixed evidence for spatial lag so not
-run.
+run. Also, need for accounting for heteroskedastic errors in final
+spatial error
+model.
 
 ``` python
 ols2 = ps.spreg.OLS(y, x2, w=w, name_y=y_name, name_x=x2_names, spat_diag=True, moran=True, 
@@ -414,7 +433,7 @@ print(error1.summary)
     ## ------------------------------------------------------------------------------------
     ##             CONSTANT       0.0776973       0.0027753      27.9957137       0.0000000
     ##               CDPROP      -0.0005291       0.0013898      -0.3806940       0.7034303
-    ##               DISSIM      -0.2915393       0.0565689      -5.1537010       0.0000003
+    ##               DISSIM      -0.2915393       0.0565689      -5.1537011       0.0000003
     ##              POVERTY       0.0164894       0.0081449       2.0244927       0.0429195
     ##             MEDICAID      -0.0036758       0.0088456      -0.4155460       0.6777423
     ##                 TANF      -0.0128896       0.0165606      -0.7783285       0.4363754

@@ -8,10 +8,10 @@ output:
 ---
 
 ## Introduction
-This notebook...
+This notebook fits the models for the asthma outcome - these were used for the Northeastern presentation.
 
 ## Dependencies
-
+`R` dependencies:
 ```{r load-packages}
 # tidyverse packages
 library(ggplot2)
@@ -21,6 +21,8 @@ library(dplyr)
 library(reticulate) # python interface
 ```
 
+Python dependencies:
+
 ```{python}
 import os
 import pysal as ps
@@ -28,6 +30,7 @@ import numpy as np
 ```
 
 ## Calculate Spatial Weights
+We'll use queens weights here to capture all contiguous neighbors, and row standardize them for analyses:
 
 ```{python}
 w = ps.queen_from_shapefile("../data/spatial/clean/STL_REDLINING_Analysis2.shp", idVariable="GEOID", sparse=False)
@@ -35,6 +38,7 @@ w.transform = 'r'
 ```
 
 ## Set up Variables
+The `x` model is the main effect; `xa` and `xb` are stepwise models. `x1` is the full OLS model / error model and `x2` is a check for whether proportion African American
 
 ```{python}
 db = ps.open("../data/spatial/clean/STL_REDLINING_Analysis2.dbf", 'r')
@@ -52,6 +56,7 @@ x2_names = ['CDPROP','BLACK', 'POVERTY', 'MEDICAID', 'TANF', 'SNAP', 'RENT', 'UN
 x2 = np.array([db.by_col(var) for var in x2_names]).T
 ```
 
+We check a couple of the arrays quickly to make sure they have the correct shape:
 
 ```{python}
 print(y.shape)
@@ -97,7 +102,7 @@ ols1 = ps.spreg.OLS(y, x1, w=w, name_y=y_name, name_x=x1_names, spat_diag=True, 
 print(ols1.summary)
 ```
 
-Spatial error model indicated - mixed evidence for spatial lag so not run.
+Spatial error model indicated - mixed evidence for spatial lag so not run. Also, need for accounting for heteroskedastic errors in final spatial error model.
 
 ```{python}
 ols2 = ps.spreg.OLS(y, x2, w=w, name_y=y_name, name_x=x2_names, spat_diag=True, moran=True, 
